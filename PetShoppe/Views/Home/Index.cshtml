@@ -1,0 +1,71 @@
+﻿@model List<PetShoppe.Models.PetsModel>
+<div id="header">
+    <h3>Pet catalogue</h3>
+    <script type="text/javascript" src="~/Scripts/jquery-3.2.1.js"></script>
+    <script>
+        $(function () {
+            formatTable();
+        });
+
+        function formatTable() {
+            $('.visibleToggle:odd').addClass('odd');
+            $('.visibleToggle:even').addClass('even');
+        };
+
+        function filterItems() {
+            var serachTerm = $('#searchTerm').val();
+            var rows = $('.row');
+            rows.each(function () {
+                var jQthis = $(this)
+                if (jQthis.is(":contains('" + serachTerm + "')")) {
+                    jQthis.show().addClass('visibleToggle');
+                }
+                else
+                {
+                    jQthis.hide().removeClass('visibleToggle');
+                }
+                jQthis.removeClass('odd').removeClass('even');
+            });
+            formatTable();
+        };
+    </script>
+    <style type="text/css">
+        body {
+            background-color: gray;
+        }
+        .even {
+            background-color: aliceblue;
+        }
+        .odd {
+            background-color: cadetblue;
+        }
+        .row {
+            border-width:thin;
+            border-color:black;
+            border-style:solid;
+        }
+        .hidden {
+            visibility:hidden;
+        }
+    </style>
+</div>
+<body>
+    <div class="table">
+        @foreach (PetShoppe.Models.PetsModel pet in Model)
+        {
+            <div class="row visibleToggle">
+                <div class="col-md-1">
+                    @pet.Name
+                </div>
+                <div class="col-md-1">
+                    @pet.Age
+                </div>
+                <div class="col-md-1">
+                    @pet.Species
+                </div>
+            </div>
+        }
+    </div>
+    <input id="searchTerm" type="text" />
+    <button onclick="filterItems()">Filter</button>
+</body>
